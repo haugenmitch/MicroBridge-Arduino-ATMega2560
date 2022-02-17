@@ -1,6 +1,8 @@
 USB and SDCARD Firmware flashing for the ARDUINO ATMEGA 2560 and ADK
 ---------------------------------------------------------------------
 
+⚠️Note: This fork has been modified to work with the Arduino Mega2560 rev3 with an Arduino Ethernet Shield (which includes an SD card reader). Keep in mind, on the Mega, the hardware SS pin, 53, is not used to select either the W5100 or the SD card, but it must be kept as an output or the SPI interface won't work. Also, this fork changes the EEPROM flag address from 0x1FF to 0xFFF, the last EEPROM address on the Mega2560.
+
 master branch is sdcard flash
 bootloader_from_flash is flash from an spi chip
 
