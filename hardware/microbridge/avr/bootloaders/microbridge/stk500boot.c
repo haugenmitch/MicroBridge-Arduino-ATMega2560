@@ -583,16 +583,6 @@ int main(void)
 	WDTCSR	|=	_BV(WDCE) | _BV(WDE);
 	WDTCSR	=	0;
 	__asm__ __volatile__ ("sei");
-    
-    
-    
-       
-    
-	// check if WDT generated the reset, if so, go straight to app
-	if (mcuStatusReg & _BV(WDRF))
-	{
-		app_start();
-	}
 	//************************************************************************
 #endif
 
