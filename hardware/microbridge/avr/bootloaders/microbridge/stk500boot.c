@@ -1134,28 +1134,26 @@ int main(void)
 		}
 	}
     
-    if(boot_state == 2){
-        if(eeprom_read_byte(0xFFF) == 0xF0){
-           pf_mount(&Fatfs);	/* Initialize file system */
-           if(pf_open("firmware.bin") == FR_OK){
-               DWORD fa;	/* Flash address */
-               WORD br;	/* Bytes read */
-               uint8_t i = 0;
-               sendchar(0x0d);
-               sendchar(0x0a);
-               for (fa = 0; fa < 0x3E000; fa += SPM_PAGESIZE) {	/* Update all application pages */
-                   PROGLED_PORT	^=	(1<<PROGLED_PIN);	// turn LED ON
-                   delay_ms(50);
-                   flash_erase(fa);					/* Erase a page */
-                   memset(Buff, 0xFF, SPM_PAGESIZE);	/* Clear buffer */
-                   pf_read(Buff, SPM_PAGESIZE, &br);	/* Load a page data */
-                   if(br) flash_write(fa, Buff);		/* Write it if the data is available */
-                }
-               sendchar(0x0d);
-               sendchar(0x0a);
-               check = 0;
-               eeprom_write_byte (0xFFF, 0xFF);
-           }
+    if(eeprom_read_byte(0xFFF) == 0xF0){
+        pf_mount(&Fatfs);	/* Initialize file system */
+        if(pf_open("firmware.bin") == FR_OK){
+            DWORD fa;	/* Flash address */
+            WORD br;	/* Bytes read */
+            uint8_t i = 0;
+            sendchar(0x0d);
+            sendchar(0x0a);
+            for (fa = 0; fa < 0x3E000; fa += SPM_PAGESIZE) {	/* Update all application pages */
+                PROGLED_PORT	^=	(1<<PROGLED_PIN);	// turn LED ON
+                delay_ms(50);
+                flash_erase(fa);					/* Erase a page */
+                memset(Buff, 0xFF, SPM_PAGESIZE);	/* Clear buffer */
+                pf_read(Buff, SPM_PAGESIZE, &br);	/* Load a page data */
+                if(br) flash_write(fa, Buff);		/* Write it if the data is available */
+            }
+            sendchar(0x0d);
+            sendchar(0x0a);
+            check = 0;
+            eeprom_write_byte (0xFFF, 0xFF);
         }
     }
 
