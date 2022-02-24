@@ -570,22 +570,6 @@ int main(void)
 	asm volatile ( "ldi	16, %0" :: "i" (RAMEND & 0x0ff) );
 	asm volatile ( "out %0,16" :: "i" (AVR_STACK_POINTER_LO_ADDR) );
 
-#ifdef _FIX_ISSUE_181_
-	//************************************************************************
-	//*	Dec 29,	2011	<MLS> Issue #181, added watch dog timmer support
-	//*	handle the watch dog timer
-	uint8_t	mcuStatusReg;
-	mcuStatusReg	=	MCUSR;
-
-	__asm__ __volatile__ ("cli");
-	__asm__ __volatile__ ("wdr");
-	MCUSR	=	0;
-	WDTCSR	|=	_BV(WDCE) | _BV(WDE);
-	WDTCSR	=	0;
-	__asm__ __volatile__ ("sei");
-	//************************************************************************
-#endif
-
 
 	boot_timer	=	0;
 	boot_state	=	0;
